@@ -1,26 +1,34 @@
 <?php
+
+session_start();
+if(!$_SESSION['loggedin'] || !isset($_SESSION['loggedin'])){
+    header('Location: loginform.html');
+    exit();
+}
+
 try {
     $dbhandle = new PDO('mysql:host=dragon.kent.ac.uk; dbname=co323',
         'co323', 'h@v3fun');
 }
 catch (PDOException $e) { die('DB connect error: ' . $e->getMessage()); }
 
-$sql = "SELECT name, weighting
-FROM     Assessment a JOIN Course c ON a.cid = c.cid 
-WHERE    title = 'Database Systems'
-ORDER BY name;"; // The SQL query itself
+$sql = "SELECT cid, name, AVG(mark) AS avg_mark
+FROM Grade g JOIN Assessment a ON g.aid = a.aid      
+GROUP BY cid, name
+ORDER BY cid, name;"; // The SQL query itself
 $query = $dbhandle->prepare($sql); // Prepare and ...
 if ( $query->execute() === FALSE ) { // ... execute the query
     die('Query exec error: ' . implode($query->errorInfo(),' '));
 }
 $results = $query->fetchAll(); // Put all the results in an array
 ?>
-<h2>Database Systems Assessments</h2>
-<table><th>Name</th><th>Weighting</th>
+<h2>Assessment Information</h2>
+<table><tr><th>Name</th><th>Weighting</th></tr>
     <?php // Generate HTML from the contents of the results array
     foreach ($results as $row) {
-        echo "<td>".$row['name']."</td>"."<td>".$row['weighting']."</td>";
+        echo "<tr><td>".$row['cid']."</td>"."<td>".$row['name']."</td>"."<td>".$row['avg_mark']."</td></tr>";
     }
     ?>
 </table>
+
 

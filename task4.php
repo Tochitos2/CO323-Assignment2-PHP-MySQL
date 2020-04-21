@@ -1,4 +1,10 @@
 <?php
+session_start();
+if(!$_SESSION['loggedin'] || !isset($_SESSION['loggedin'])){
+    header('Location: loginform.html');
+    exit();
+}
+
 try {
     $dbhandle = new PDO('mysql:host=dragon.kent.ac.uk; dbname=co323',
         'co323', 'h@v3fun');
