@@ -22,10 +22,10 @@ $results = $query->fetchAll(); // Put all the results in an array
 ?>
 <h2>Student Information</h2>
 <form action="task7.php" method="get">
-    <select>
+    <select name="sid">
         <?php
         foreach($results as $row){
-            echo "<option value=\"".$row['sid']."\">".$row['sid']." | ".$row['forename']." ".$row['surname']. " | ".$row['gender']."<\option>";
+            echo "<option name=\"sid\" value=\"".$row['sid']."\">".$row['sid']." | ".$row['forename']." ".$row['surname']. " | ".$row['gender']."</option>";
         }
         ?>
     </select>

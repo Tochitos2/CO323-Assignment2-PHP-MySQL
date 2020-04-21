@@ -23,7 +23,7 @@ if ( $query->execute() === FALSE ) { // ... execute the query
 $results = $query->fetchAll(); // Put all the results in an array
 ?>
 <h2>Assessment Information</h2>
-<table><tr><th>Name</th><th>Weighting</th></tr>
+<table><tr><th>Course ID</th><th>Name</th><th>Weighting</th></tr>
     <?php // Generate HTML from the contents of the results array
     foreach ($results as $row) {
         echo "<tr><td>".$row['cid']."</td>"."<td>".$row['name']."</td>"."<td>".$row['avg_mark']."</td></tr>";
